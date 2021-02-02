@@ -45,7 +45,7 @@ function startPrompt() {
                     return;
 
                 case "CREATE_NEW_EMPLOYEE":
-                    createEmployee();
+                    addEmployee();
                     return;
 
                 default:
@@ -53,5 +53,20 @@ function startPrompt() {
             }
         })
 }
+
+function viewDepartment(){};
+
+function viewRoles(){};
+
+function viewEmployees(){};
+
+function createDepartment(){};
+
+function createRole(){};
+
+function addEmployee(){};
+
+
+
 
 startPrompt();
