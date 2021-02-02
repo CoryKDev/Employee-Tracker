@@ -54,19 +54,110 @@ function startPrompt() {
         })
 }
 
-function viewDepartment(){};
+function viewDepartment(){
+    db.getDepartment()
+    .then((results) => {
+        console.table(results);
+        startPrompt();
+    });
+};
 
-function viewRoles(){};
+function viewRoles(){
+    db.getRoles()
+    .then((results) => {
+        console.table(results);
+        startPrompt();
+    });
+};
 
-function viewEmployees(){};
+function viewEmployees(){
+    db.getEmployees()
+    .then((results) => {
+        console.table(results);
+        startPrompt();
+    });
+};
 
-function createDepartment(){};
+function createDepartment(){
+    db.getDepartment()
+    .then(
+        inquirer.prompt([
+            {
+                message: "What department do you want to create?",
+                type: "input",
+                name: "name"
+            }
+        ]).then(res => {
+            console.log(res);
+            db.insertDepartment(res);
+            startPrompt();
+        })
+    )       
 
-function createRole(){};
-
-function addEmployee(){};
+};
 
 
+function createRole(){
+    db.getDepartment()
+    .then((departments) => {
+        const departmentChoices = departments.map((departments) => ({
+            value: department.department_id,
+            name: department.name
+        }))
+        inquirer.prompt([
+            {
+                message: "What department is this role for?",
+                type: "list",
+                name: "department_id",
+                choices: departmentChoices
+            },
+            {
+                message: "What is the salary for this position?",
+                type: "number",
+                name: "salary"
+            },
+            {
+                message: "What role will this employee fulfill?",
+                type: "input",
+                name: "title"
+            }
+        ]).then(res => {
+            console.table(res);
+            startPrompt();
+        })
+    })
+}
+   
 
+function addEmployee(){
+    db.getRoles.then((role) => {
+        const roleChoices = role.map((roles) => ({
+            value: roles.role_id,
+            name: roles.title
+        }))
+        inquirer.prompt([
+            {
+                message: "What is the employee's first name?",
+                type: "input",
+                name: "first_name"
+            },
+            {
+                message: "What is the employee's last name?",
+                type: "input",
+                name: "last_name"
+            },
+            {
+                message: "What role will the employee fulfill?",
+                type: "list",
+                name: "role_id",
+                choices: roleChoices
+            }
+        ]).then(res => {
+            console.log(res);
+            db.insertEmployee(res);
+            startPrompt();
+        })
+    })
+};
 
 startPrompt();
